@@ -35,6 +35,9 @@ type Props = {
 
   /** Optional inline style */
   style: ?Object,
+
+  /** Optional inject selfWindow */
+  selfWindow: ?Object,
 };
 
 type State = {
@@ -160,7 +163,7 @@ export default class AutoSizer extends React.Component<Props, State> {
   }
 
   _onResize = () => {
-    const {disableHeight, disableWidth, onResize} = this.props;
+    const {disableHeight, disableWidth, onResize, selfWindow = window} = this.props;
 
     if (this._parentNode) {
       // Guard against AutoSizer component being removed from the DOM immediately after being added.
@@ -170,7 +173,7 @@ export default class AutoSizer extends React.Component<Props, State> {
       const height = this._parentNode.offsetHeight || 0;
       const width = this._parentNode.offsetWidth || 0;
 
-      const win = this._window || window;
+      const win = this._window || selfWindow;
       const style = win.getComputedStyle(this._parentNode) || {};
       const paddingLeft = parseInt(style.paddingLeft, 10) || 0;
       const paddingRight = parseInt(style.paddingRight, 10) || 0;
